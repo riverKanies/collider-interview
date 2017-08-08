@@ -15,6 +15,16 @@ Template.list.helpers({
     return Stlfiles.find({})//[{url:'1'}, {url:'2'}, {url:'3'}]
   }
 })
+
+window.uploadToFileStack = ()=>{
+  const client = window.filestack.init('AdTs2mYYCT06g6qLtsY6Nz');
+  client.pick({
+  }).then((result) => {
+    const url = result.filesUploaded[0].url
+    console.log('new file: ', url)
+    Stlfiles.insert({url: url})
+  });
+}
 //
 // Template.hello.helpers({
 //   counter() {
