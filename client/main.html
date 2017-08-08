@@ -4,18 +4,24 @@
 </head>
 
 <template name='list'>
-  <p>This is a list</p>
+  <h3>Model List:</h3>
+  <p>Select a model to view:</p>
   <ul>
     {{#each file in files}}
-      <li><a href="?url={{file.url}}">{{file.url}}</a></li>
+      <li>
+        Name: {{file.name}}, Vertices: {{file.vertices}}, Faces: {{file.faces}}, <a href="?url={{file.url}}">View</a>, <a href="{{file.url}}" download>Download</a>
+      </li>
     {{/each}}
   </ul>
 </template>
 
 <body>
-  <button onclick='uploadToFileStack()'>Upload</button>
+  <h2>River's Formal Application for Collider</h2>
+  <h3>Upload Section:</h3>
+  Type a name for the .stl file you want to upload: <input type="text" id="stlfilename" /><br/>
+  then <button onclick='uploadToFileStack()'>Upload</button> the file
   {{> list}}
-
+  <h3>Model Viewer:</h3>
 <script>
 var container, camera, scene, renderer;
 
@@ -35,6 +41,7 @@ function init(){
     var loader=new THREE.STLLoader();
     loader.addEventListener('load', function (event){
         var geometry=event.content;
+        console.log('verticies: ', geometry.vertices.length, geometry.faces.length)
         var material=new THREE.MeshLambertMaterial({ ambient: 0xFBB917,color: 0xfdd017 });
         var mesh=new THREE.Mesh(geometry, material);
         scene.add(mesh);});

@@ -22,7 +22,14 @@ window.uploadToFileStack = ()=>{
   }).then((result) => {
     const url = result.filesUploaded[0].url
     console.log('new file: ', url)
-    Stlfiles.insert({url: url})
+    var loader=new THREE.STLLoader();
+    loader.addEventListener('load', function (event){
+        var geometry=event.content;
+        const name = document.getElementById("stlfilename").value
+        console.log('verticies: ', geometry.vertices.length, geometry.faces.length)
+        Stlfiles.insert({url: url, name: name, vertices: geometry.vertices.length, faces: geometry.faces.length})
+    })
+    loader.load(url)
   });
 }
 //
