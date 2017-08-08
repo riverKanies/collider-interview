@@ -5,6 +5,11 @@
 
 <template name='list'>
   <p>This is a list</p>
+  <ul>
+    {{#each file in files}}
+      <li>{{file.url}}</li>
+    {{/each}}
+  </ul>
 </template>
 
 <body>
