@@ -5,6 +5,7 @@ import './main.html';
 import { Stlfiles } from '../imports/api/stlfiles.js';
 
 Template.list.onCreated(function helloOnCreated() {
+  this.filter = new ReactiveVar('name');
   this.autorun(()=>{
     this.subscribe('stlfiles')
   })
@@ -12,9 +13,20 @@ Template.list.onCreated(function helloOnCreated() {
 
 Template.list.helpers({
   files() {
-    return Stlfiles.find({})//[{url:'1'}, {url:'2'}, {url:'3'}]
+    if (Template.instance().filter.get() == 'vertices') {
+      return Stlfiles.find({}, {sort: [['vertices','asc']]})
+    } else {
+      return Stlfiles.find({})
+    }
   }
 })
+
+Template.list.events({
+  'click button'(event, instance) {
+    instance.filter.set('vertices');
+    console.log('filtering')
+  },
+});
 
 window.uploadToFileStack = ()=>{
   const client = window.filestack.init('AdTs2mYYCT06g6qLtsY6Nz');
