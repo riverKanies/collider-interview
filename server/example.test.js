@@ -1,5 +1,5 @@
 import { chai } from 'meteor/practicalmeteor:chai';
-import mainTest from './main'
+import mainTest from './example'
 
 describe('my module', function () {
   it('does something that should be tested', function () {

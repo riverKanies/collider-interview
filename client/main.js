@@ -4,6 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './main.html';
 import { Stlfiles } from '../imports/api/stlfiles.js';
 
+//setup reactive vars and subscriptions
 Template.list.onCreated(function helloOnCreated() {
   this.filter = new ReactiveVar('name');
   this.autorun(()=>{
@@ -11,6 +12,7 @@ Template.list.onCreated(function helloOnCreated() {
   })
 });
 
+//declare functions that can be called from template using reactive vars
 Template.list.helpers({
   files() {
     const filter = Template.instance().filter.get()
@@ -23,6 +25,7 @@ Template.list.helpers({
   }
 })
 
+//handle events, update reactive vars
 Template.list.events({
   'change select'(event, instance) {
     const filter = document.getElementById('filterselect').value
@@ -30,6 +33,7 @@ Template.list.events({
   },
 });
 
+//handle upload through FileStack
 window.uploadToFileStack = ()=>{
   const client = window.filestack.init('AdTs2mYYCT06g6qLtsY6Nz');
   client.pick({
@@ -44,16 +48,3 @@ window.uploadToFileStack = ()=>{
     loader.load(url)
   });
 }
-//
-// Template.hello.helpers({
-//   counter() {
-//     return Template.instance().counter.get();
-//   },
-// });
-//
-// Template.hello.events({
-//   'click button'(event, instance) {
-//     // increment the counter when button is clicked
-//     instance.counter.set(instance.counter.get() + 1);
-//   },
-// });
