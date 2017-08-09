@@ -5,11 +5,18 @@
 
 <template name='list'>
   <h3>Model List:</h3>
-  <p>Select a model to view:</p><button>Filter</button>
+  <p>Select a model to view:</p>
+  Sort by:
+  <select id='filterselect'>
+    <option value='name'>Name</option>
+    <option value='vertices'>Vertices</option>
+    <option value='faces'>Faces</option>
+    <option value='createdAt'>Date Created</option>
+  </select>
   <ul>
     {{#each file in files}}
       <li>
-        Name: {{file.name}}, Vertices: {{file.vertices}}, Faces: {{file.faces}}, <a href="?url={{file.url}}">View</a>, <a href="{{file.url}}" download>Download</a>
+        Name: {{file.name}}, Vertices: {{file.vertices}}, Faces: {{file.faces}}, <a href="?url={{file.url}}">View</a>, <a href="{{file.url}}" download>Download</a><br/>Date Created: {{file.createdAt}}
       </li>
     {{/each}}
   </ul>

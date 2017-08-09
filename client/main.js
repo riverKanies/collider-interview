@@ -13,18 +13,20 @@ Template.list.onCreated(function helloOnCreated() {
 
 Template.list.helpers({
   files() {
-    if (Template.instance().filter.get() == 'vertices') {
-      return Stlfiles.find({}, {sort: [['vertices','asc']]})
-    } else {
-      return Stlfiles.find({})
+    const filter = Template.instance().filter.get()
+    if (filter == 'name') {
+      return Stlfiles.find({}).fetch().sort((a,b)=>{
+        return a.name>b.name
+      })
     }
+    return Stlfiles.find({}, {sort: [[filter,'asc']]})
   }
 })
 
 Template.list.events({
-  'click button'(event, instance) {
-    instance.filter.set('vertices');
-    console.log('filtering')
+  'change select'(event, instance) {
+    const filter = document.getElementById('filterselect').value
+    instance.filter.set(filter);
   },
 });
 
@@ -33,13 +35,11 @@ window.uploadToFileStack = ()=>{
   client.pick({
   }).then((result) => {
     const url = result.filesUploaded[0].url
-    console.log('new file: ', url)
     var loader=new THREE.STLLoader();
     loader.addEventListener('load', function (event){
         var geometry=event.content;
         const name = document.getElementById("stlfilename").value
-        console.log('verticies: ', geometry.vertices.length, geometry.faces.length)
-        Stlfiles.insert({url: url, name: name, vertices: geometry.vertices.length, faces: geometry.faces.length})
+        Stlfiles.insert({createdAt: new Date(), url: url, name: name, vertices: geometry.vertices.length, faces: geometry.faces.length})
     })
     loader.load(url)
   });
